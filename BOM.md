@@ -4,10 +4,10 @@
 
 | Category | Cost |
 |----------|------|
-| Bottle Materials (8 bottles) | $456.35 |
+| Bottle Materials (8 bottles) | $430.36 |
 | Transmitter Materials | $62.66 |
 | Receiver Materials | $58.64 |
-| **Total Project Cost** | **$577.65** |
+| **Total Project Cost** | **$551.95** |
 
 ---
 
