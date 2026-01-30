@@ -219,8 +219,7 @@ Academic/Research Use
 
 Elliot C. Brown
 Rutgers University, Department of Marine and Coastal Science
-elliot.brown,marinetech@gmail.coms://github.com/[yourusername]/niskin-bottle-asv-project.git
-   cd niskin-bot
+elliot.brown,marinetech@gmail.com
 ## Acknowledgments
 
 - Thesis advisor: Alex Lopez, Max Gorbinov, Oscar Schofield
