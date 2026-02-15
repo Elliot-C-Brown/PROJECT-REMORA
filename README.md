@@ -224,13 +224,16 @@ elliot.brown,marinetech@gmail.com
 
 - Thesis advisor: Alex Lopez, Max Gorbinov, Oscar Schofield
 - Institution: Rutgers University, Department of Marine and Coastal Science
-
+- This project is a continuation of work that was startred by Bohdi Fox ("THE REMORA: A WATER SAMPLING CAPABILITY FOR THE WASTESHARK
+AUTONOMOUS SURFACE VEHICLE")
+- Bhodi's work was based off the work done by Andrew Thaler of Oceanography is for Everyone and his NISKIN 3D Project (https://github.com/OceanographyforEveryone/Niskin3D)
 
 ## References
 
 - RadioHead Library Documentation: http://www.airspayce.com/mikem/arduino/RadioHead/
 - Teensy 4.0 Documentation: https://www.pjrc.com/store/teensy40.html
 - MCP23017 Datasheet: https://learn.adafruit.com/adafruit-i2c-to-8-channel-solenoid-driver
+
 
 ---s://github.com/[yourusername]/niskin-bottle-asv-project.git
    cd niskin-bot
