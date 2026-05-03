@@ -10,13 +10,11 @@ Specifically, it was designed to be mounted on the [WasteShark](https://www.ranm
 
 ### Key Features
 
-- **Wireless Control**: 915 MHz encrypted RF communication using RFM69HCW modules
+- **Wireless Control**: 915 MHz communication using ADAFRUIT RFM69HCW modules
 - **Eight-Channel Operation**: Independent control of up to eight Niskin bottles
-- **Safety Features**: Physical enable/disable switch and auto-deactivation after 1 second to prevent solenoid damage
 - **Acknowledgment System**: Visual confirmation of successful activation via LED indicators
-- **Real-Time Feedback**: Three-color LED system provides instant status updates
-- **Marine-Ready Design**: Built for deployment on ASV platforms
-- **650mL Sample Volume**: Optimized for water quality analysis
+- **Marine-Ready Design**
+- **650mL Sample Volume**
 
 ## System Architecture
 
@@ -55,45 +53,11 @@ Status LEDs:
 **Hardware:**
 - Teensy 4.0 microcontroller
 - RFM69HCW radio module (915 MHz)
-- MCP23X17 I2C I/O expander (8-channel output)
-- 8 solenoid valves for Niskin bottle actuation
-- Onboard LED (Pin 13): Solenoid active indicator
-- Power supply system (12V for solenoids, 5V/3.3V for electronics)
+- MCP23X17 Solenoid Driver Board
+- 8 solenoid Actuators
+- Power supply system (12V/24V for solenoids, 5V/3.3V for electronics)
 
 ## Hardware Components
-
-### Electronics
-
-**Microcontrollers & Communication:**
-- **Microcontroller**: Teensy 4.0 (x2)
-- **Radio Modules**: RFM69HCW 915MHz (x2)
-- **I/O Expander**: Adafruit MCP23X17 (receiver side)
-- **Antennas**: 915MHz whip antennas (x2)
-
-**Control & Feedback:**
-- **Buttons**: Tactile push buttons (x8) - Transmitter
-- **Safety Switch**: SPST toggle switch (x1) - Transmitter
-- **Status LEDs**: 5mm LEDs - Yellow, Green, Red (x1 each) - Transmitter
-- **LED Resistors**: 220Ω (x3) - Transmitter
-
-**Actuation:**
-- **Solenoids**: Adafruit 413 Solenoid Pull Intermittent 12V (x8)
-- **Solenoid Driver**: Built into MCP23X17 board or external MOSFET array
-
-**Power:**
-- 12V power supply for solenoids
-- 5V/3.3V for microcontrollers and logic
-- [Specific power supply details TBD]
-
-### Mechanical
-
-- Niskin bottle mounting hardware
-- Solenoid mounting brackets
-- Waterproof enclosures (IP66 rated)
-- Cable assemblies and cable glands
-- Rubber stoppers and release mechanisms
-
-*Note: Complete Bill of Materials available in `/hardware/BOM.md`*
 
 ## Software
 
@@ -119,11 +83,6 @@ The system uses a simple string-based command protocol over encrypted RF with ac
 | `ACTIVATE_6` | Trigger Niskin bottle 6 closure | `ACK` |
 | `ACTIVATE_7` | Trigger Niskin bottle 7 closure | `ACK` |
 
-**Communication Features:**
-- AES-128 encryption for security
-- 2-second ACK timeout
-- Automatic retry capability (future enhancement)
-- RSSI monitoring (future enhancement)
 
 ### Operation Sequence
 
@@ -132,10 +91,10 @@ The system uses a simple string-based command protocol over encrypted RF with ac
 3. **Transmitter sends encrypted ACTIVATE command** and flashes yellow LED
 4. **Receiver activates corresponding solenoid** and sends ACK
 5. **Transmitter receives ACK:**
-   - ✅ **Success**: Green LED flashes (1 second)
-   - ❌ **Timeout**: Red LED flashes (1 second) - receiver may be out of range
-6. **Solenoid remains active for 1 second**, then automatically deactivates
-7. **Onboard LEDs** on both units provide visual feedback during activation
+   -  **Success**: Green LED flashes (1 second)
+   -  **Timeout**: Red LED flashes (1 second) - receiver may be out of range
+6. **Solenoid remains active for 1 second**, then automatically deactivates (prevents burnout of electronics)
+
 
 ### Safety Switch Operation
 
@@ -225,7 +184,7 @@ See `/docs/testing-protocol.md` for comprehensive testing procedures.
 
 **Project Status**: ~75% Complete
 
-### ✅ Completed
+###  Completed
 
 - [x] Wireless communication system (RFM69HCW)
 - [x] Eight-channel control system
@@ -235,200 +194,28 @@ See `/docs/testing-protocol.md` for comprehensive testing procedures.
 - [x] I2C I/O expansion for 8-channel solenoid control
 - [x] Three-LED status indication system
 - [x] Transmitter/receiver firmware with ACK timeout handling
+- [x] ASV integration (12V power for solenoids, 3.3V/5V for Teensy)
 
-### 🚧 In Progress
+###  In Progress
 
-- [ ] ASV integration (12V power for solenoids, 3.3V/5V for Teensy)
+- [ ] 
 - [ ] Comprehensive build/assembly guide update
 - [ ] Troubleshooting documentation
 - [ ] Waterproof electronics enclosure design
 - [ ] Field testing and range validation
 - [ ] Power consumption optimization
 
-### 📋 Planned
+###  Planned
 
 - [ ] Extended range testing (target: 500m over water)
-- [ ] Battery voltage monitoring
-- [ ] RSSI (signal strength) monitoring and display
 - [ ] Data logging (GPS coordinates, timestamp, bottle number)
 - [ ] Integration with WasteShark navigation system
 - [ ] Water sample analysis protocols
-- [ ] Depth profiling capability
-- [ ] Float/buoy design for sample recovery
+- [ ] Float/buoy design for sampeling without 
 
-## Usage
 
-### Basic Operation
-
-1. **Pre-Deployment:**
-   - Power on transmitter unit (USB or battery)
-   - Power on receiver unit (ASV power system)
-   - Verify both units initialize (check Serial Monitor or onboard LEDs)
-   - Ensure safety switch is in DISARMED position
-
-2. **Arming the System:**
-   - Flip safety switch to ARMED position
-   - Serial Monitor displays: "System Armed — buttons active"
-
-3. **Triggering Sampling:**
-   - Press button corresponding to desired bottle (0-7)
-   - Observe LED feedback:
-     - **Yellow flash**: Command transmitted
-     - **Green flash**: Success! Bottle activated
-     - **Red flash**: Failed! Receiver not responding
-   - Serial Monitor shows: "Button X pressed — Solenoid X"
-
-4. **Automatic Deactivation:**
-   - Solenoid automatically deactivates after 1 second
-   - Preserves solenoid lifespan and prevents overheating
-
-5. **Disarming:**
-   - Flip safety switch to DISARMED position when finished
-   - Serial Monitor displays: "System Disarmed — buttons disabled"
-
-### LED Status Reference
-
-| LED Color | Meaning | Duration | Action Required |
-|-----------|---------|----------|-----------------|
-| 🟡 Yellow | Signal transmitted | 1 second | Wait for green or red |
-| 🟢 Green | ACK received, bottle activated | 1 second | Success! No action needed |
-| 🔴 Red | No ACK, activation failed | 1 second | Move closer or check receiver |
-| 💡 Onboard (Pin 13) | Radio transmission | Brief flash | Normal operation |
-
-## Technical Specifications
-
-### Radio System
-
-- **Frequency**: 915 MHz (ISM band)
-- **Output Power**: 20 dBm (100 mW)
-- **Encryption**: AES-128
-- **Modulation**: FSK (Frequency Shift Keying)
-- **Range**: 
-  - Line of sight: ~500m (to be validated)
-  - Over water: ~500m (to be validated)
-  - Through obstacles: ~100m (estimated)
-
-### Timing Parameters
-
-- **Solenoid Active Time**: 1 second (configurable in code)
-- **ACK Timeout**: 2 seconds
-- **LED Flash Duration**: 1 second
-- **Button Debounce**: 20 ms
-- **Switch Debounce**: 250 ms
-- **Communication Latency**: <100 ms (typical)
-- **ACK Response Delay**: 200 ms
-
-### Electrical Specifications
-
-**Transmitter:**
-- Operating Voltage: 3.3V (via Teensy regulator)
-- Input Power: 5V USB or 3.7-5.5V battery
-- Current Draw: ~100mA typical, ~200mA during transmission
-
-**Receiver:**
-- Logic Voltage: 3.3V/5V
-- Solenoid Voltage: 12V DC
-- Solenoid Current: ~1.5A per channel (12A max for 8 channels)
-- Total System Current: ~200mA (logic) + up to 12A (solenoids)
-
-## Safety & Best Practices
-
-### Electrical Safety
-
-- Always test system on land before water deployment
-- Verify solenoid deactivation to prevent burnout
-- Use appropriate wire gauge for solenoid current (18 AWG minimum)
-- Include fuses in solenoid power circuit (15A recommended)
-- Check battery levels before each deployment
-- Never exceed 1-second solenoid activation time
-
-### RF Communication
-
-- Maintain RF communication line of sight when possible
-- Test range in deployment environment before mission
-- Monitor ACK success rate during operation
-- Keep antennas vertical and unobstructed
-- Follow marine electronics waterproofing standards
-
-### Mechanical Safety
-
-- Ensure rubber band in tube has enough tension to seal properly
-- Verify bottle closes with watertight seal on its own
-- Inspect solenoid mounting before each deployment
-- Check release mechanism for consistent operation
-- Test trigger force and stopper release in controlled environment
-
-### Operational Safety
-
-- **Always keep safety switch DISARMED during:**
-  - Transport
-  - Setup and installation
-  - Maintenance
-  - When not actively sampling
-- Double-check bottle number before activation
-- Maintain deployment log with timestamps and locations
-- Have backup manual trigger method available
-
-## Troubleshooting
 
 ### LED Indicator Troubleshooting
-
-| Symptom | Possible Cause | Solution |
-|---------|---------------|----------|
-| No LEDs light up | Power issue | Check USB/battery connection |
-| Only yellow LED | Receiver offline | Check receiver power and initialization |
-| Frequent red LEDs | Out of range | Move units closer or check antenna |
-| Yellow + Red | ACK timeout | Check encryption key match, verify receiver running |
-
-### Common Issues
-
-**Red LED (No ACK) Appears:**
-- Receiver may be out of range
-- Check receiver is powered on and initialized
-- Verify encryption keys match on both units
-- Check antenna connections
-- Reduce distance between units
-
-**Safety Switch Not Working:**
-- Verify switch is connected to Pin 16
-- Check switch orientation (normally HIGH when disarmed)
-- Monitor Serial output for "Armed/Disarmed" messages
-
-**Button Press No Response:**
-- Ensure safety switch is ARMED
-- Check button wiring and connections
-- Verify button pins in code match physical wiring
-- Test individual button with multimeter
-
-**Multiple Bottles Activate:**
-- This should not occur with current design
-- Check for wiring short circuits
-- Verify MCP23X17 addressing and connections
-
-For additional troubleshooting, see `/docs/troubleshooting.md`
-
-## Future Enhancements
-
-### Near-Term
-- Battery voltage monitoring with low-battery warning LED
-- RSSI (signal strength) display
-- Solenoid continuity check before deployment
-- Waterproof enclosure finalization and testing
-
-### Mid-Term
-- Integration with WasteShark navigation system for automated sampling
-- GPS coordinate logging with timestamp
-- SD card data logging
-- Multi-unit support (multiple receivers on one ASV)
-
-### Long-Term
-- Depth profiling with pressure sensors
-- Temperature and salinity sensors integration
-- Autonomous sampling based on sensor triggers
-- Satellite communication for remote operation
-- Sample recovery float/buoy system
-
-## Contributing
 
 This is a thesis project for the Rutgers Masters in Operational Oceanography Program, but suggestions and improvements are welcome. Please open an issue to discuss proposed changes.
 
