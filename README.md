@@ -112,28 +112,6 @@ The safety switch prevents accidental bottle activation:
 
 **Best Practice:** Keep switch in DISARMED position during transport, setup, and when not actively sampling.
 
-## Repository Structure
-
-```
-The-Remora/
-├── README.md                          # This file
-├── hardware/
-│   ├── BOM.md                         # Bill of Materials
-│   ├── schematics/                    # Circuit diagrams
-│   └── enclosures/                    # Enclosure designs/specs
-├── software/
-│   ├── transmitter/
-│   │   └── Transmitter_8Button_3LED_Switch/  # Latest transmitter sketch
-│   ├── receiver/
-│   │   └── Receiver_8Button_3LED_Switch/     # Latest receiver sketch
-│   └── libraries/                     # Required libraries info
-├── docs/
-│   ├── BUILD_INSTRUCTIONS.md          # Build and assembly guide
-│   ├── operation-manual.md            # User guide
-│   ├── troubleshooting.md             # Common issues and fixes
-│   └── testing-protocol.md            # Testing procedures
-└── images/                            # Photos and diagrams
-```
 
 ## Getting Started
 
@@ -143,42 +121,6 @@ The-Remora/
 - Teensyduino add-on installed
 - Required libraries (see Software section)
 
-### Installation
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/[yourusername]/The-Remora.git
-   cd The-Remora
-   ```
-
-2. **Install Dependencies**
-   - Install RadioHead library via Arduino Library Manager
-   - Install Adafruit MCP23017 library via Arduino Library Manager
-
-3. **Hardware Assembly**
-   - Refer to `/docs/BUILD_INSTRUCTIONS.md` for detailed assembly instructions
-   - See `/hardware/schematics/` for wiring diagrams
-
-4. **Upload Code**
-   - Upload `Transmitter_8Button_3LED_Switch.ino` to transmitter Teensy 4.0
-   - Upload `Receiver_8Button_3LED_Switch.ino` to receiver Teensy 4.0
-
-5. **Configuration**
-   - Verify RF frequency matches your region (915 MHz for US)
-   - Adjust encryption key if needed (must match on both devices)
-   - Modify `SOLENOID_ON_TIME` if different timing required (default: 1000ms)
-
-### Testing
-
-See `/docs/testing-protocol.md` for comprehensive testing procedures.
-
-**Quick Test:**
-1. Power both units
-2. Open Serial Monitors (115200 baud) on both units
-3. Flip safety switch to ARMED
-4. Press Button 0
-5. Observe LED sequence: Yellow → Green (if successful) or Red (if failed)
-6. Check Serial output for confirmation messages
 
 ## Current Development Status
 
