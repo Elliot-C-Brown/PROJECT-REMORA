@@ -1,10 +1,10 @@
 # The Remora: Remotely Activated Niskin Bottles for Automated Surface Vehicles
 
-A wireless control system for remotely triggering Niskin bottle closures on an Automated Surface Vehicle (ASV), enabling automated water sampling for oceanographic research.
+A wireless control system for remotely triggering low cost Niskin bottles on an Automated Surface Vehicle (ASV), enabling automated water sampling for oceanographic research.
 
 ## Project Overview
 
-The Remora is a remote activation system for Niskin bottles mounted on an ASV. The system allows researchers to trigger water sample collection at precise locations or time periods without physical contact with the sampling equipment, enabling autonomous or semi-autonomous water sampling operations. 
+The Remora is a low cost remote activation system for Niskin bottles mounted on an ASV. The system allows researchers to trigger water sample collection at precise locations or time periods without physical contact with the sampling equipment, enabling autonomous or semi-autonomous water sampling operations. 
 
 Specifically, it was designed to be mounted on the [WasteShark](https://www.ranmarine.io/wastesharkclassic/) ASV and collect samples at different time intervals or at user-specified locations.
 
@@ -12,11 +12,11 @@ Specifically, it was designed to be mounted on the [WasteShark](https://www.ranm
 
 - **Wireless Control**: 915 MHz communication using ADAFRUIT RFM69HCW modules
 - **Eight-Channel Operation**: Independent control of up to eight Niskin bottles
-- **Acknowledgment System**: Visual confirmation of successful activation via LED indicators
-- **Marine-Ready Design**
-- **650mL Sample Volume**
+- **water proof housing**
+- **635mL Sample Volume**
+- **Current Component Cost = $850 USD**
 
-## System Architecture
+## Electronics Architecture
 
 The system consists of two main components:
 
